@@ -1,5 +1,5 @@
 name: Testing QuickPizza
-on: push
+on: workflow_dispatch
 
 jobs:
   runner-job:
