@@ -5,5 +5,5 @@ export  function testtonto () {
     
   const res = http.get("https://test-api.k6.io/public/crocodiles/");
   
-  return { data: res };
+  return res;
 }

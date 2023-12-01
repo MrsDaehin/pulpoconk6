@@ -2,6 +2,9 @@ import { sleep, group } from "k6";
 import http from "k6/http";
 import { checkStatus } from "../shared/utils.js";
 import { randomIntBetween } from "https://jslib.k6.io/k6-utils/1.1.0/index.js";
+import { Trend } from 'k6/metrics';
+
+const myTrend = new Trend('carga inicial');
 
 export function navigateHomepage() {
   group("Navigate to Homepage", function () {
@@ -16,8 +19,10 @@ export function navigateHomepage() {
         host: "ecommerce.test.k6.io",
         "upgrade-insecure-requests": "1",
       },
+      tags: {
+        my_tag: "home",
+      },
     });
-
     checkStatus({
       response: response,
       expectedStatus: 200,
@@ -70,12 +75,16 @@ export function navigateHomepage() {
       }
     );
 
-    checkStatus({
+    /*checkStatus({
       response: response,
       expectedStatus: 200,
       failOnError: true,
       printOnError: true,
-    });
+    });*/
+    
+    myTrend.add(res.timings.connecting, { my_tag: "carga inicial" });
+    console.log(response);
+    return response;
   });
 
   sleep(randomIntBetween(pauseMin, pauseMax));

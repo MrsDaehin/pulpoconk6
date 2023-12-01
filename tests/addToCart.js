@@ -33,6 +33,9 @@ export function addToCart() {
       );
       expect(response.status, "response status").to.equal(500);
       expect(response).to.have.validJsonBody();
+      
+      return response;
+
     });
   });
 

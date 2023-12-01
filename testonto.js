@@ -16,9 +16,9 @@ export default function main() {
  
   describe("testtonto", () => {
    
-    let test = testtonto();
+    var test = testtonto();
     
-    console.log(test);
+    console.log(test.status);
     
     //expect(test.status, "test status").to.equal(200);
     expect(JSON.parse(test.body).status, 'status code').to.equal('200.');
