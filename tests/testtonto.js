@@ -4,6 +4,7 @@ import http from 'k6/http'
 import { htmlReport } from "https://raw.githubusercontent.com/benc-uk/k6-reporter/main/dist/bundle.js";
 //import { htmlReport } from '../dist/bundle.js'
 import { textSummary } from 'https://jslib.k6.io/k6-summary/0.0.1/index.js'
+import { jUnit } from 'https://jslib.k6.io/k6-summary/0.0.2/index.js';
 
 const TARGET_URL = __ENV.TEST_TARGET || 'https://benc.dev'
 const RAMP_TIME = __ENV.RAMP_TIME || '1s'
@@ -12,9 +13,11 @@ const USER_COUNT = __ENV.USER_COUNT || 20
 const SLEEP = __ENV.SLEEP || 0.5
 
 export function handleSummary(data) {
+  console.log('Preparing the end-of-test summary...');
   return {
     'summary.html': htmlReport(data, { debug: false }),
     stdout: textSummary(data, { indent: ' ', enableColors: true }),
+    'junit.xml': jUnit(data), // Transform summary and save it as a JUnit XML...
   }
 }
 
